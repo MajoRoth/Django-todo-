@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4" style="padding: 40px">
+            <!-- FORM -->
+            <form action="add/" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <label for="content">Add item</label>
+                    <div class="col-sm-10">
+                        <input type="text" required name="content" class="form-control mb-2 mr-sm-2 form-control-lg" placeholder="type here..." id="content">
+                    </div>
+                </div>
+                <div class="form-row" style="padding-top: 10px">
+                    <label for="priority">Priority</label>
+                    <div class="col-sm-12">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-info active">
+                                 <input type="radio" name="priority" value=1 checked> Low
+                            </label>
+                            <label class="btn btn-warning">
+                                <input type="radio" name="priority" value=2> Moderate
+                            </label>
+                            <label class="btn btn-danger">
+                                <input type="radio" name="priority" value=3> Critical
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" style="padding-top: 15px">
+                    <div class="form-group col-md-6">
+                        <label for="est_time">Est. Time</label>
+                        <input type="number" class="form-control" name="est_time" value=0>
+                    </div>
+                    <div class="form-group col-md-4" style="padding-top: 8px">
+                        <label for="est_time_unit"> </label>
+                        <select name="est_time_unit" class="form-control">
+                            <option value=0>M</option>
+                            <option value=1 selected>H</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top: 20px">
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </div>
+            </form>
+            <!-- END FORM -->
+        </div>
+
+
+
+
+        <div class="col-md-8" style="padding: 40px">
+            <!--<h1>RIGHT SECTION</h1>-->
+            <ul class="list-group">
+                {% if not todo_items %}
+                    <h5>You ran out of missions...</h5>
+                {% endif %}
+                {% for todo_item in todo_items %}
+                    {% if todo_item.priority == 1 %}
+                        <li class="list-group-item">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% elif todo_item.priority == 2 %}
+                        <li class="list-group-item list-group-item-warning">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% elif todo_item.priority == 3 %}
+                        <li class="list-group-item list-group-item-danger">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}

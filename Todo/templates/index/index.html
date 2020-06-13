@@ -1,0 +1,66 @@
+<!--
+{% extends "base.html" %}
+{% block content %}
+    <div class="row mt-4" >
+        <div class="col">
+            <h2>Add Item</h2>
+            <form action="add/" method="post" class="form-inline">
+                {% csrf_token %}
+                <input type="text" required name="content" class="form-control mb-2 mr-sm-2 form-control-lg" placeholder="type here...">
+                <h3>Priority:</h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-left: 20px">
+                    <label class="btn btn-info active">
+                         <input type="radio" name="priority" value=1 checked> Low
+                    </label>
+                    <label class="btn btn-warning">
+                        <input type="radio" name="priority" value=2> Moderate
+                    </label>
+                    <label class="btn btn-danger">
+                        <input type="radio" name="priority" value=3> Critical
+                    </label>
+                </div>
+                <div class="mx-auto">
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <ul class="list-group">
+                {% if not todo_items %}
+                    <h5>You ran out of missions...</h5>
+                {% endif %}
+                {% for todo_item in todo_items %}
+                    {% if todo_item.priority == 1 %}
+                        <li class="list-group-item">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% elif todo_item.priority == 2 %}
+                        <li class="list-group-item list-group-item-warning">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% elif todo_item.priority == 3 %}
+                        <li class="list-group-item list-group-item-danger">{{ todo_item.text }}
+                            <div class="float-right">
+                                <form action="delete/{{todo_item.id}}/" action="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
+-->
